@@ -79,7 +79,10 @@
         if (! connected) {
             var name = $("#name").val();
             console.log("Val: " + name);
-            socket = new WebSocket("ws://" + location.host + "/kahoot/" + name);
+            // deploy for this
+            socket = new WebSocket("wss://" + location.host + "/kahoot/" + name);
+            // local for this
+            // socket = new WebSocket("ws://" + location.host + "/kahoot/" + name);
             socket.onopen = function() {
                 connected = true;
                 console.log("Connected to the web socket");
