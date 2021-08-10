@@ -1,9 +1,10 @@
 package org.firstclass.kahoot;
 
-
+import org.firstclass.kahoot.resources.RoomResources;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -22,6 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApplicationScoped
 public class Server
 {
+    @Inject
+    RoomResources roomResources;
     
     private static final Logger LOGGER = Logger.getLogger( Server.class );
     
