@@ -80,9 +80,9 @@
             var name = $("#name").val();
             console.log("Val: " + name);
             // deploy for this
-            socket = new WebSocket("wss://" + location.host + "/kahoot/" + name);
+            socket = new WebSocket("wss://" + location.host + "/kahoot/loki/" + name);
             // local for this
-            // socket = new WebSocket("ws://" + location.host + "/kahoot/" + name);
+            // socket = new WebSocket("ws://" + location.host + "/kahoot/loki/" + name);
             socket.onopen = function() {
                 connected = true;
                 console.log("Connected to the web socket");

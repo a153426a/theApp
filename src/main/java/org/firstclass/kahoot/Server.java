@@ -12,14 +12,12 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Loki
  * @date 7/08/21
  */
-@ServerEndpoint("/kahoot/{username}")
+@ServerEndpoint("/kahoot/{room}/{username}")
 @ApplicationScoped
 public class Server
 {
@@ -28,46 +26,52 @@ public class Server
     
     private static final Logger LOGGER = Logger.getLogger( Server.class );
     
-    Map<String, Session> sessions = new ConcurrentHashMap<>();
-    
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) {
+    public void onOpen(Session session, @PathParam( "room" ) String roomId, @PathParam("username") String username)
+    {
         
-        sessions.put(username, session);
-        LOGGER.info( String.format( "%s has joined the room. ", username ) );
-        broadcast( "User " + username + " has joined the room. " );
+        roomResources.getRoom( roomId ).addUser( username, session );
+        
+        LOGGER.info( String.format( "User %s has joined room: %s ", username, roomId ) );
+        broadcast( roomId, String.format( "User %s has joined room: %s ", username, roomId ) );
         
     }
     
     @OnClose
-    public void onClose(Session session, @PathParam("username") String username) {
+    public void onClose(Session session, @PathParam( "room" ) String roomId, @PathParam("username") String username)
+    {
         
-        sessions.remove(username);
-        LOGGER.info( String.format( "%s has left the room. ", username ) );
-        broadcast("User " + username + " left");
+        roomResources.getRoom( roomId ).removeUser( username );
+        
+        LOGGER.info( String.format( "User %s has left room: %s. ", username, roomId ) );
+        broadcast( roomId, String.format( "User %s has left room: %s. ", username, roomId ) );
         
     }
     
     @OnError
-    public void onError(Session session, @PathParam("username") String username, Throwable throwable) {
+    public void onError(Session session, @PathParam( "room" ) String roomId, @PathParam("username") String username, Throwable throwable)
+    {
+    
+        roomResources.getRoom( roomId ).removeUser( username );
         
-        sessions.remove(username);
         LOGGER.error("onError", throwable);
-        broadcast("User " + username + " left on error: " + throwable);
+        broadcast( roomId, String.format( "User %s left on error: %s", username, throwable ) );
         
     }
     
     @OnMessage
-    public void onMessage(String message, @PathParam("username") String username) {
+    public void onMessage(String message,  @PathParam( "room" ) String roomId, @PathParam("username") String username)
+    {
         
-        LOGGER.info( String.format( "%s sends %s", username, message) );
-        broadcast(">> " + username + ": " + message);
+        LOGGER.info( String.format( "User: %s sends %s in room: %s", username, message, roomId) );
+        broadcast(roomId, String.format( ">> %s: %s", username, message));
         
     }
     
-    private void broadcast(String message) {
+    private void broadcast(String roomId, String message)
+    {
         
-        sessions.values().forEach(s -> {
+        roomResources.getRoom( roomId ).getUsers().values().forEach(s -> {
             s.getAsyncRemote().sendObject(message, result -> {
                 if (result.getException() != null) {
                     LOGGER.info( String.format( "Unable to send message: %s", result.getException()) );

@@ -75,4 +75,11 @@ public class RoomResources
         return rooms;
     }
     
+    public Room getRoom(String roomId)
+    {
+    
+        return rooms.stream().filter( room->room.getRoomId().contentEquals( roomId ) ).findFirst().orElseGet( () -> null );
+        
+    }
+    
 }
