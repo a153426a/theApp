@@ -29,11 +29,13 @@ public class Server
     @OnOpen
     public void onOpen(Session session, @PathParam( "room" ) String roomId, @PathParam("username") String username)
     {
+        var result = roomResources.getRoom( roomId ).addUser( username, session );
         
-        roomResources.getRoom( roomId ).addUser( username, session );
-        
-        LOGGER.info( String.format( "User %s has joined room: %s ", username, roomId ) );
-        broadcast( roomId, String.format( "User %s has joined room: %s ", username, roomId ) );
+        if(result)
+        {
+            LOGGER.info( String.format( "User %s has joined room: %s ", username, roomId ) );
+            broadcast( roomId, String.format( "User %s has joined room: %s ", username, roomId ) );
+        }
         
     }
     
@@ -41,17 +43,20 @@ public class Server
     public void onClose(Session session, @PathParam( "room" ) String roomId, @PathParam("username") String username)
     {
         
-        roomResources.getRoom( roomId ).removeUser( username );
+        var result =  roomResources.getRoom( roomId ).removeUser( username );
         
-        LOGGER.info( String.format( "User %s has left room: %s. ", username, roomId ) );
-        broadcast( roomId, String.format( "User %s has left room: %s. ", username, roomId ) );
+        if(result)
+        {
+            LOGGER.info( String.format( "User %s has left room: %s. ", username, roomId ) );
+            broadcast( roomId, String.format( "User %s has left room: %s. ", username, roomId ) );
+        }
         
     }
     
     @OnError
     public void onError(Session session, @PathParam( "room" ) String roomId, @PathParam("username") String username, Throwable throwable)
     {
-    
+        
         roomResources.getRoom( roomId ).removeUser( username );
         
         LOGGER.error("onError", throwable);

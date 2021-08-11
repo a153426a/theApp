@@ -27,42 +27,38 @@ public class Room
         this.roomId = roomId;
     }
     
-    public Map<String, Session> addUser(String userName, Session session)
+    public boolean addUser(String userName, Session session)
     {
 
         if(users.containsKey( userName ))
         {
             
             LOGGER.info( String.format( "Adding user: %s fail. Check if the user exists ", userName ) );
-            
+            return false;
         } else
         {
             
             users.put( userName, session );
             LOGGER.info( String.format( "Adding user: %s success ", userName ) );
-            
+            return true;
         }
     
-        return users;
-
     }
 
-    public Map<String, Session> removeUser(String userName)
+    public boolean removeUser(String userName)
     {
         if( !users.containsKey( userName ))
         {
             
             LOGGER.info( String.format( "Removing user: %s fail. Check if the user exists ", userName ) );
-            
+            return false;
         } else
         {
             
             users.remove( userName );
             LOGGER.info( String.format( "Removing user: %s success ", userName ) );
-            
+            return true;
         }
-
-        return users;
 
     }
     
