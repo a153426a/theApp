@@ -1,12 +1,8 @@
 # theapp Project
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
-
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
-
 ## Running the application in dev mode
 
-You can run your application in dev mode that enables live coding using:
+You can run the application in dev mode that enables live coding using:
 ```shell script
  mvn compile quarkus:dev
 ```
@@ -15,57 +11,31 @@ You can run your application in dev mode that enables live coding using:
 
 ## Packaging and running the application
 
-The application can be packaged using:
+The application can be packaged to `quarkus-run.jar` using:
 ```shell script
 ./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
 ```
 
 The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
 
-## Creating a native executable
-
-You can create a native executable using: 
+The application can be packaged to _über-jar_ using:
 ```shell script
-./mvnw package -Pnative
+./mvnw package -Dquarkus.package.type=uber-jar
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
+## Uploading to GCP 
 
-You can then execute your native executable with: `./target/theapp-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html.
-
-## Provided Code
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
-
-# Personal Change 
-
-## Build the project 
+### Build the project 
 ```shell script
 mvn clean package
 ```
-or
+or to skip tests
 ```shell script
 mvn clean package -DskipTests -DskipIntegrationTests -U
 ```
  
 
-## Submit to cloud build 
+### Submit to cloud build 
 ```shell script
 gcloud builds submit --tag gcr.io/testk8s1/theapp  
 ``` 
