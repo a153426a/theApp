@@ -1,14 +1,14 @@
 package org.firstclass.kahoot;
 
 import org.firstclass.kahoot.resources.RoomResources;
-import org.firstclass.messages.received.KahootReceivedMessage;
-import org.firstclass.messages.received.KahootReceivedMessageDecoder;
-import org.firstclass.messages.received.OtherReceivedMessage;
-import org.firstclass.messages.received.SelectAnswerReceivedMessage;
-import org.firstclass.messages.send.ErrorsMessage;
-import org.firstclass.messages.send.KahootSendMessage;
-import org.firstclass.messages.send.KahootSendMessageEncoder;
-import org.firstclass.messages.send.RoomStatusBeforeGameMessage;
+import org.firstclass.kahoot.messages.received.KahootReceivedMessage;
+import org.firstclass.kahoot.messages.received.KahootReceivedMessageDecoder;
+import org.firstclass.kahoot.messages.received.OtherReceivedMessage;
+import org.firstclass.kahoot.messages.received.SelectAnswerReceivedMessage;
+import org.firstclass.kahoot.messages.send.ErrorsMessage;
+import org.firstclass.kahoot.messages.send.KahootSendMessage;
+import org.firstclass.kahoot.messages.send.KahootSendMessageEncoder;
+import org.firstclass.kahoot.messages.send.RoomStatusBeforeGameMessage;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -51,7 +51,7 @@ public class Server
         {
             
             var roomStatusMessage = new RoomStatusBeforeGameMessage();
-            roomStatusMessage.setUsers( roomResources.getRoom( roomId ).getUsers().keySet() );
+            roomStatusMessage.getPayload().setUsers( roomResources.getRoom( roomId ).getUsers().keySet() );
             broadcast( roomId, roomStatusMessage);
             
         }
@@ -104,19 +104,19 @@ public class Server
         {
             LOGGER.info( "Message received is null, sending error message. " );
             var errorMessage = new ErrorsMessage();
-            errorMessage.setInfo( WRONG_MESSAGE_TYPE );
+            errorMessage.getPayload().setErrorInfo( WRONG_MESSAGE_TYPE );
             privateMessage( roomId, username, errorMessage );
         }
         
         
-        LOGGER.info( String.format( "User: %s sends %s in room: %s", username, message, roomId) );
-        broadcast(roomId, String.format( ">> %s: %s", username, message));
+//        LOGGER.info( String.format( "User: %s sends %s in room: %s", username, message, roomId) );
+//        broadcast(roomId, String.format( ">> %s: %s", username, message));
         
     }
     
     private void onReceiveSelectAnswerMessage(SelectAnswerReceivedMessage message, String roomId, String username)
     {
-    
+        broadcast( roomId, String.format( "User: %s in room: %s has selected %s", username, roomId, message.getPayload().getSelection().toString() ) );
     }
     
     private void onReceiveOtherMessage( OtherReceivedMessage message, String roomId, String username )

@@ -1,6 +1,6 @@
-package org.firstclass.messages.send;
+package org.firstclass.kahoot.messages.send;
 
-import org.firstclass.messages.received.KahootReceivedMessageType;
+import org.firstclass.kahoot.messages.received.KahootReceivedMessageType;
 
 /**
  * @author Loki

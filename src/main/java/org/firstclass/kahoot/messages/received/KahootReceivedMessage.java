@@ -1,4 +1,4 @@
-package org.firstclass.messages.received;
+package org.firstclass.kahoot.messages.received;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,5 +12,6 @@ public abstract class KahootReceivedMessage
 {
     
     protected KahootReceivedMessageType type;
+    protected KahootReceivedMessagePayload payload = new KahootReceivedMessagePayload();
     
 }

@@ -1,4 +1,4 @@
-package org.firstclass.messages.send;
+package org.firstclass.kahoot.messages.send;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +12,6 @@ import java.util.Set;
 @Setter
 public class RoomStatusBeforeGameMessage extends KahootSendMessage
 {
-    private Set<String> users;
-    
     public RoomStatusBeforeGameMessage()
     {
         type = KahootSendMessageType.ROOM_STATUS_BEFORE_GAME;
@@ -25,9 +23,10 @@ public class RoomStatusBeforeGameMessage extends KahootSendMessage
         StringBuilder sb = new StringBuilder();
         sb.append( type.toString() ).append( " message" ).append( "\n" );
         sb.append( "User: " );
+        var users = getPayload().getUsers();
         if(users!=null)
         {
-            users.forEach( userName -> sb.append( userName+", " ) );
+            users.forEach( userName -> sb.append( userName ).append( ", " ) );
         }
         sb.append( "are in room. " );
         

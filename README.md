@@ -12,14 +12,14 @@ You can run the application in dev mode that enables live coding using:
 
 The application can be packaged to `quarkus-run.jar` using:
 ```shell script
-./mvnw package
+mvn package
 ```
 
 The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
 
 The application can be packaged to _über-jar_ using:
 ```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
+mvn package -Dquarkus.package.type=uber-jar
 ```
 
 ## Uploading to GCP 

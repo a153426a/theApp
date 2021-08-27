@@ -1,4 +1,4 @@
-package org.firstclass.messages.send;
+package org.firstclass.kahoot.messages.send;
 
 import com.google.gson.Gson;
 
@@ -12,7 +12,7 @@ import javax.websocket.EndpointConfig;
 public class KahootSendMessageEncoder implements Encoder.Text<KahootSendMessage>
 {
     
-    private static Gson gson = new Gson();
+    private static final Gson gson = new Gson();
     
     @Override
     public String encode( KahootSendMessage message ) throws EncodeException

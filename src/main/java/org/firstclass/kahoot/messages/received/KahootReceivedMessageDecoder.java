@@ -1,4 +1,4 @@
-package org.firstclass.messages.received;
+package org.firstclass.kahoot.messages.received;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -26,7 +26,7 @@ public class KahootReceivedMessageDecoder implements Decoder.Text<KahootReceived
             {
                 case SELECT_ANSWER:
                     var message = new SelectAnswerReceivedMessage();
-                    message.setSelection( KahootSelections.get( jsonObject.getAsJsonPrimitive("selection").getAsString() ) );
+                    message.getPayload().setSelection( KahootSelections.get( jsonObject.getAsJsonObject("payload").getAsJsonPrimitive("selection").getAsString() ) );
                     return message;
                 case OTHER:
                     return gson.fromJson( s, OtherReceivedMessage.class);

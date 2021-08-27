@@ -1,6 +1,6 @@
 package org.firstclass.kahoot.messages;
 
-import org.firstclass.messages.received.KahootReceivedMessageType;
+import org.firstclass.kahoot.messages.received.KahootReceivedMessageType;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

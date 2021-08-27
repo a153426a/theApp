@@ -1,4 +1,4 @@
-package org.firstclass.messages.received;
+package org.firstclass.kahoot.messages.received;
 
 /**
  * @author Loki

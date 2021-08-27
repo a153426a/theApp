@@ -1,4 +1,4 @@
-package org.firstclass.messages.received;
+package org.firstclass.kahoot.messages.received;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +11,6 @@ import lombok.Setter;
 public class SelectAnswerReceivedMessage extends KahootReceivedMessage
 {
     
-    protected KahootSelections selection;
-    
     public SelectAnswerReceivedMessage()
     {
         type = KahootReceivedMessageType.SELECT_ANSWER;
@@ -24,6 +22,7 @@ public class SelectAnswerReceivedMessage extends KahootReceivedMessage
         StringBuilder sb = new StringBuilder();
         sb.append( type.toString() ).append( " message" ).append( "\n" );
         sb.append( "Selection: " );
+        var selection = getPayload().getSelection();
         if(selection!=null)
         {
             sb.append( selection.toString() );

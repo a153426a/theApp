@@ -1,4 +1,4 @@
-package org.firstclass.messages.send;
+package org.firstclass.kahoot.messages.send;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +11,6 @@ import lombok.Setter;
 public class ErrorsMessage extends KahootSendMessage
 {
     
-    private String info;
-    
     public ErrorsMessage()
     {
         type = KahootSendMessageType.ERRORS;
@@ -23,10 +21,10 @@ public class ErrorsMessage extends KahootSendMessage
     {
         StringBuilder sb = new StringBuilder();
         sb.append( type.toString() ).append( " message" ).append( "\n" );
-        
-        if(info!=null)
+        var errorInfo = getPayload().getErrorInfo();
+        if( errorInfo !=null)
         {
-            sb.append( "Info: " ).append( info ).append( ". " );
+            sb.append( "Info: " ).append( errorInfo ).append( ". " );
         }
         
         return sb.toString();
