@@ -3,6 +3,7 @@ package org.firstclass.kahoot.resources;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -53,6 +54,7 @@ public class RoomResources
         } else
         {
             LOGGER.info( String.format( "Adding room: %s fail. The room exists ", room.getRoomId() ) );
+            throw new BadRequestException(String.format( "Adding room: %s fail. The room exists ", room.getRoomId() ));
         }
     
         return rooms;
@@ -60,25 +62,43 @@ public class RoomResources
     
     @DELETE
     @Consumes( MediaType.APPLICATION_JSON )
-    public Set<Room> deleteRooms(Room room)
+    public Set<Room> deleteRoom(String roomId)
     {
-        var result =  rooms.removeIf( existingRoom -> existingRoom.getRoomId().contentEquals( room.getRoomId() ) );
+        var result =  rooms.removeIf( existingRoom -> existingRoom.getRoomId().contentEquals( roomId ) );
     
         if( result )
         {
-            LOGGER.info( String.format( "Delete room: %s success ", room.getRoomId() ) );
+            LOGGER.info( String.format( "Delete room: %s success ", roomId ) );
         } else
         {
-            LOGGER.info( String.format( "Delete room: %s fail ", room.getRoomId() ) );
+            LOGGER.info( String.format( "Delete room: %s fail ", roomId ) );
+            throw new BadRequestException("Delete room: %s fail ");
         }
     
         return rooms;
     }
     
-    public Room getRoom(String roomId)
+    @GET
+    @Path( "{id}" )
+    public Room getRoom(String id)
     {
+        var room = rooms.stream().filter( room1->room1.getRoomId().equals( id ) ).findFirst().orElseGet( () -> null );
+        if(room != null)
+        {
+            LOGGER.info( String.format( "Get room: %s success ", room.getRoomId() ) );
+        } else
+        {
+            LOGGER.info( String.format( "Get room: %s fail ", id ) );
+        }
+        
+        return room;
+        
+    }
     
-        return rooms.stream().filter( room->room.getRoomId().contentEquals( roomId ) ).findFirst().orElseGet( () -> null );
+    public Room getRoomForServer(String id)
+    {
+        
+        return rooms.stream().filter( room->room.getRoomId().equals( id ) ).findFirst().orElseGet( () -> null );
         
     }
     

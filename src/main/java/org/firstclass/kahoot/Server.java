@@ -45,13 +45,13 @@ public class Server
     @OnOpen
     public void onOpen(Session session, @PathParam( "room" ) String roomId, @PathParam("username") String username)
     {
-        var result = roomResources.getRoom( roomId ).addUser( username, session );
+        var result = roomResources.getRoomForServer( roomId ).addUser( username, session );
         
         if(result)
         {
             
             var roomStatusMessage = new RoomStatusBeforeGameMessage();
-            roomStatusMessage.getPayload().setUsers( roomResources.getRoom( roomId ).getUsers().keySet() );
+            roomStatusMessage.getPayload().setUsers( roomResources.getRoomForServer( roomId ).getUsers().keySet() );
             broadcast( roomId, roomStatusMessage);
             
         }
@@ -62,7 +62,7 @@ public class Server
     public void onClose(Session session, @PathParam( "room" ) String roomId, @PathParam("username") String username)
     {
         
-        var result =  roomResources.getRoom( roomId ).removeUser( username );
+        var result =  roomResources.getRoomForServer( roomId ).removeUser( username );
         
         if(result)
         {
@@ -76,7 +76,7 @@ public class Server
     public void onError(Session session, @PathParam( "room" ) String roomId, @PathParam("username") String username, Throwable throwable)
     {
         
-        roomResources.getRoom( roomId ).removeUser( username );
+        roomResources.getRoomForServer( roomId ).removeUser( username );
         
         LOGGER.error("onError", throwable);
         broadcast( roomId, String.format( "User %s left on error: %s", username, throwable ) );
@@ -127,7 +127,7 @@ public class Server
     private void broadcast(String roomId, String string)
     {
         
-        roomResources.getRoom( roomId ).getUsers().values().forEach(s -> {
+        roomResources.getRoomForServer( roomId ).getUsers().values().forEach(s -> {
             s.getAsyncRemote().sendObject(string, result -> {
                 if (result.getException() != null) {
                     LOGGER.info( String.format( UNABLE_SEND_MESSAGE, result.getException()) );
@@ -140,7 +140,7 @@ public class Server
     private void broadcast(String roomId, KahootSendMessage message )
     {
         
-        roomResources.getRoom( roomId ).getUsers().values().forEach(s -> {
+        roomResources.getRoomForServer( roomId ).getUsers().values().forEach(s -> {
             s.getAsyncRemote().sendObject(message, result -> {
                 if (result.getException() != null) {
                     LOGGER.info( String.format( UNABLE_SEND_MESSAGE, result.getException()) );
@@ -155,7 +155,7 @@ public class Server
     {
         
         roomResources
-                .getRoom( roomId )
+                .getRoomForServer( roomId )
                 .getUsers()
                 .get( username )
                 .getAsyncRemote()

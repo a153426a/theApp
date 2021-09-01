@@ -1,6 +1,6 @@
 package org.firstclass.kahoot.resources;
 
-import org.firstclass.kahoot.messages.received.KahootSelections;
+import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Loki
  * @date 31/08/21
  */
+@QuarkusTest
 class KahootTypeAnswerQuestionTest
 {
     
@@ -16,9 +17,9 @@ class KahootTypeAnswerQuestionTest
     void createKahootTypeAnswerQuestionTest()
     {
         var question = TestDataHelper.createTypeAnswerQuestion();
-        assertThat(question.questionResult( "answer" ) ).isTrue();
-        assertThat(question.questionResult( "answer  " ) ).isTrue();
-        assertThat(question.questionResult( "answer  lala" ) ).isFalse();
+        assertThat(question.checkResult( "answer" ) ).isTrue();
+        assertThat(question.checkResult( "answer  " ) ).isTrue();
+        assertThat(question.checkResult( "answer  lala" ) ).isFalse();
     }
     
 }

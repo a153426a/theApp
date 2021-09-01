@@ -1,10 +1,11 @@
 package org.firstclass.kahoot.resources;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.firstclass.kahoot.messages.received.KahootSelections;
+import org.jboss.logging.Logger;
 
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -15,6 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Setter
 public abstract class KahootQuestion
 {
+    
+    protected static final Logger LOGGER = Logger.getLogger( KahootQuestion.class );
     
     KahootQuestionType      type;
     KahootQuestionPointType pointType = KahootQuestionPointType.STANDARD;
@@ -33,5 +36,7 @@ public abstract class KahootQuestion
     {
         this.id = count.incrementAndGet();
     }
+    
+    protected abstract void validate();
     
 }

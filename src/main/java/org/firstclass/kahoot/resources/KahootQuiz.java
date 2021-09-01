@@ -1,13 +1,10 @@
 package org.firstclass.kahoot.resources;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -48,7 +45,7 @@ public class KahootQuiz
     public List<KahootQuestion> addQuestion( KahootQuestion kahootQuestion )
     {
         questionList.add( kahootQuestion );
-        
+        System.out.println("lllllllllllllllllllllllllllllllllllllllllllllllll");
         return questionList;
     }
     
@@ -68,6 +65,16 @@ public class KahootQuiz
         questionList.removeIf( question -> question.getId() == id );
         
         return questionList;
+    }
+    
+    public KahootQuiz update(KahootQuiz newQuiz)
+    {
+        this.title = newQuiz.getTitle();
+        this.description = newQuiz.getDescription();
+        this.questionList = newQuiz.getQuestionList();
+        this.coverImageUrl = newQuiz.getCoverImageUrl();
+        
+        return this;
     }
     
 }

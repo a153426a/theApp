@@ -2,7 +2,6 @@ package org.firstclass.kahoot.resources;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.firstclass.kahoot.messages.received.KahootSelections;
 
 /**
  * @author Loki
@@ -13,7 +12,7 @@ import org.firstclass.kahoot.messages.received.KahootSelections;
 public class KahootTypeAnswerQuestion extends KahootQuestion
 {
     
-    private String answer;
+    private String                typeAnswer;
     
     public KahootTypeAnswerQuestion(String questionString)
     {
@@ -23,9 +22,18 @@ public class KahootTypeAnswerQuestion extends KahootQuestion
         this.questionString = questionString;
     }
     
-    public boolean questionResult( String submittedAnswer)
+    public boolean checkResult( String submittedAnswer)
     {
-        return submittedAnswer.trim().equals( answer );
+        return submittedAnswer.trim().equals( typeAnswer );
+    }
+    
+    @Override
+    public void validate()
+    {
+        if(type == null || questionString==null || typeAnswer ==null)
+        {
+            LOGGER.info( "Standard questions validation failed, type || questionString || answers missing. " );
+        }
     }
     
 }

@@ -1,5 +1,6 @@
 package org.firstclass.kahoot.resources;
 
+import io.quarkus.test.junit.QuarkusTest;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Loki
  * @date 1/09/21
  */
+@QuarkusTest
 class KahootQuizTest
 {
 

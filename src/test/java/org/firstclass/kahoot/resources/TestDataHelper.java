@@ -19,7 +19,7 @@ public class TestDataHelper
                 RandomStringUtils.randomAlphabetic( 20 ),
                 RandomStringUtils.randomAlphabetic( 20 ));
         
-        result.setAnswers( Stream.of( KahootSelections.ONE ).collect( Collectors.toSet()) );
+        result.setStandardAnswer( Stream.of( KahootSelections.ONE ).collect( Collectors.toSet()) );
         return result;
     }
     
@@ -30,7 +30,7 @@ public class TestDataHelper
                 RandomStringUtils.randomAlphabetic( 20 ),
                 RandomStringUtils.randomAlphabetic( 20 ));
         
-        result.setAnswers( Stream.of( KahootSelections.ONE ).collect( Collectors.toSet()) );
+        result.setStandardAnswer( Stream.of( KahootSelections.ONE ).collect( Collectors.toSet()) );
         return result;
     }
     
@@ -42,15 +42,15 @@ public class TestDataHelper
                 RandomStringUtils.randomAlphabetic( 20 ),
                 RandomStringUtils.randomAlphabetic( 20 ));
         
-        result.setAnswers( Stream.of( KahootSelections.ONE ).collect( Collectors.toSet()) );
+        result.setStandardAnswer( Stream.of( KahootSelections.ONE ).collect( Collectors.toSet()) );
         return result;
     }
     
     public static KahootTrueOrFalseQuestion createTrueOrFalseQuestion()
     {
-        var result = new KahootTrueOrFalseQuestion( RandomStringUtils.randomAlphabetic( 100 ) );
+        var result = new KahootTrueOrFalseQuestion( RandomStringUtils.randomAlphabetic( 100 ), "true", "false" );
         
-        result.setAnswer( KahootSelections.ONE );
+        result.setTfAnswer( KahootSelections.ONE );
         
         return result;
     }
@@ -59,7 +59,7 @@ public class TestDataHelper
     {
         var result = new KahootTypeAnswerQuestion( RandomStringUtils.randomAlphabetic( 100 ) );
         
-        result.setAnswer( "answer");
+        result.setTypeAnswer( "answer");
         
         return result;
     }

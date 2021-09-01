@@ -8,7 +8,8 @@ public enum KahootSelections
     ONE,
     TWO,
     THREE,
-    FOUR;
+    FOUR,
+    EMPTY;
     
     public static KahootSelections get(String string)
     {

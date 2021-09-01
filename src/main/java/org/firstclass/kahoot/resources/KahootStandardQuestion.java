@@ -15,8 +15,8 @@ import java.util.Set;
 public class KahootStandardQuestion extends KahootQuestion
 {
     
-    private Set<KahootSelections> answers;
-
+    private Set<KahootSelections> standardAnswer;
+    
     public KahootStandardQuestion(String questionString, String answerOne, String answerTwo)
     {
         
@@ -55,12 +55,18 @@ public class KahootStandardQuestion extends KahootQuestion
     
     public boolean questionResult(Set<KahootSelections> selection)
     {
-        if(selection.size() == 0) return false;
+        if(selection.isEmpty()) return false;
         
-        return answers.size() == selection.size() && answers.containsAll( selection );
+        return standardAnswer.size() == selection.size() && standardAnswer.containsAll( selection );
     }
     
+    @Override
+    public void validate()
+    {
+        if(type == null || questionString==null || answerOne==null || answerTwo==null || standardAnswer ==null)
+        {
+            LOGGER.info( "Standard questions validation failed, type || questionString || answerOne || answerTwo || answer missing. " );
+        }
+    }
     
-    
-
 }

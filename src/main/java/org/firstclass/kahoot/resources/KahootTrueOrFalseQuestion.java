@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.firstclass.kahoot.messages.received.KahootSelections;
 
-import java.util.Set;
-
 /**
  * @author Loki
  * @date 31/08/21
@@ -15,9 +13,9 @@ import java.util.Set;
 public class KahootTrueOrFalseQuestion extends KahootQuestion
 {
     
-    private KahootSelections answer;
+    private KahootSelections      tfAnswer;
     
-    public KahootTrueOrFalseQuestion(String questionString)
+    public KahootTrueOrFalseQuestion(String questionString, String answerOne, String answerTwo)
     {
         
         super();
@@ -32,7 +30,16 @@ public class KahootTrueOrFalseQuestion extends KahootQuestion
     
     public boolean questionResult( KahootSelections kahootSelections)
     {
-        return kahootSelections == answer;
+        return kahootSelections == tfAnswer;
+    }
+    
+    @Override
+    public void validate()
+    {
+        if(type == null || questionString==null || answerOne==null || answerTwo==null || tfAnswer ==null)
+        {
+            LOGGER.info( "Standard questions validation failed, type || questionString || answerOne || answerTwo || answer missing. " );
+        }
     }
     
 }
